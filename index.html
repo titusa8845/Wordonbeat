@@ -707,8 +707,6 @@
                 themeSelect.addEventListener('change', (e) => {
                     setTheme(e.target.value);
                 });
-                // Initialize default
-                setTheme('dark');
             }
 
             // Info Modal Logic
@@ -742,8 +740,13 @@
                 });
             }
 
-            // Load Data
+            // Load Data FIRST (before setting default theme)
             loadGameData();
+
+            // Set default theme ONLY if no saved theme was loaded
+            if (!localStorage.getItem('superChallengeData')) {
+                setTheme('dark');
+            }
         }
 
         // --- LocalStorage Functions ---
@@ -1233,12 +1236,10 @@
                             // Note: currentEvent.round comes from timeline.
                             if (nextRoundIdx < TOTAL_ROUNDS && !GAME_STATE.hasFlippedForThisRound) {
                                 prepareFlipContent(nextRoundIdx);
-                                // Small delay before flipping
-                                setTimeout(() => {
-                                    triggerFlip();
-                                    GAME_STATE.currentRound = nextRoundIdx;
-                                    updateRoundButtons();
-                                }, 500);
+                                // Flip immediately (no delay)
+                                triggerFlip();
+                                GAME_STATE.currentRound = nextRoundIdx;
+                                updateRoundButtons();
                                 GAME_STATE.hasFlippedForThisRound = true;
                             }
                         }
