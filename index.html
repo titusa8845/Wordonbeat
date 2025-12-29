@@ -519,12 +519,12 @@
         function handleSlotClick(index) {
             const currentImg = GAME_STATE.rounds[GAME_STATE.currentRound].images[index];
 
-            if (currentImg) {
-                // If existing image, clear it (toggle off)
-                GAME_STATE.rounds[GAME_STATE.currentRound].images[index] = null;
-            } else if (GAME_STATE.activeTrayImage) {
-                // If empty and tray has selection, set image (toggle on)
+            if (GAME_STATE.activeTrayImage) {
+                // If tray has selection, ALWAYS overwrite (set image)
                 GAME_STATE.rounds[GAME_STATE.currentRound].images[index] = GAME_STATE.activeTrayImage;
+            } else if (currentImg) {
+                // If NO tray selection but image exists, clear it (toggle off)
+                GAME_STATE.rounds[GAME_STATE.currentRound].images[index] = null;
             }
 
             // Re-render logic that preserves flip state
