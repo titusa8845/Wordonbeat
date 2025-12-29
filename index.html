@@ -84,52 +84,57 @@
 
     <!-- 頂部資訊列 (浮動) -->
     <div class="fixed top-0 left-0 w-full p-4 flex justify-between items-start z-50 pointer-events-none">
-        <div class="pointer-events-auto bg-black/30 backdrop-blur-md p-2 rounded-xl border border-white/10">
+        <div class="pointer-events-auto bg-black/30 backdrop-blur-md p-3 rounded-2xl border border-white/10 shadow-xl transition-all duration-500"
+            id="header-panel">
             <h1 id="main-title"
-                class="text-2xl md:text-4xl font-black italic tracking-tighter text-white/50 transition-all duration-100">
-                SUPER CHALLENGE
+                class="text-4xl md:text-6xl font-black italic tracking-tighter text-white transition-all duration-300 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                超級大挑戰
             </h1>
-            <div class="flex gap-4 mt-1 text-[10px] font-mono text-zinc-400">
-                <span class="flex items-center gap-1">
-                    <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div> BPM 170
-                </span>
-                <span id="timer-display">TIME: 0.00s</span>
+            <div class="flex items-baseline gap-2">
+                <span class="text-sm font-bold text-zinc-400 italic tracking-widest">by 小萬</span>
+                <div class="flex gap-4 mt-1 text-[10px] font-mono text-zinc-500 ml-auto">
+                    <span class="flex items-center gap-1">
+                        <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div> BPM 170
+                    </span>
+                    <span id="timer-display">TIME: 0.00s</span>
+                </div>
             </div>
         </div>
 
         <!-- 回合指示器 -->
-        <div class="pointer-events-auto flex gap-1 bg-black/30 backdrop-blur-md p-1 rounded-xl border border-white/10">
+        <div
+            class="pointer-events-auto flex gap-1 bg-black/30 backdrop-blur-md p-1.5 rounded-2xl border border-white/10 shadow-lg">
             <button onclick="setRound(0)" id="round-btn-0"
-                class="round-btn w-8 h-8 rounded-lg bg-zinc-800/50 text-zinc-400 font-bold hover:bg-zinc-700/80 transition-colors border border-white/5 text-xs">1</button>
+                class="round-btn w-10 h-10 rounded-xl bg-zinc-800/50 text-zinc-400 font-bold hover:bg-zinc-700/80 transition-all border border-white/5 text-sm">1</button>
             <button onclick="setRound(1)" id="round-btn-1"
-                class="round-btn w-8 h-8 rounded-lg bg-zinc-800/50 text-zinc-400 font-bold hover:bg-zinc-700/80 transition-colors border border-white/5 text-xs">2</button>
+                class="round-btn w-10 h-10 rounded-xl bg-zinc-800/50 text-zinc-400 font-bold hover:bg-zinc-700/80 transition-all border border-white/5 text-sm">2</button>
             <button onclick="setRound(2)" id="round-btn-2"
-                class="round-btn w-8 h-8 rounded-lg bg-zinc-800/50 text-zinc-400 font-bold hover:bg-zinc-700/80 transition-colors border border-white/5 text-xs">3</button>
+                class="round-btn w-10 h-10 rounded-xl bg-zinc-800/50 text-zinc-400 font-bold hover:bg-zinc-700/80 transition-all border border-white/5 text-sm">3</button>
             <button onclick="setRound(3)" id="round-btn-3"
-                class="round-btn w-8 h-8 rounded-lg bg-zinc-800/50 text-zinc-400 font-bold hover:bg-zinc-700/80 transition-colors border border-white/5 text-xs">4</button>
+                class="round-btn w-10 h-10 rounded-xl bg-zinc-800/50 text-zinc-400 font-bold hover:bg-zinc-700/80 transition-all border border-white/5 text-sm">4</button>
             <button onclick="setRound(4)" id="round-btn-4"
-                class="round-btn w-8 h-8 rounded-lg bg-zinc-800/50 text-zinc-400 font-bold hover:bg-zinc-700/80 transition-colors border border-white/5 text-xs">5</button>
+                class="round-btn w-10 h-10 rounded-xl bg-zinc-800/50 text-zinc-400 font-bold hover:bg-zinc-700/80 transition-all border border-white/5 text-sm">5</button>
         </div>
     </div>
 
-    <!-- 主遊戲區 (全螢幕) -->
-    <div class="absolute inset-0 z-0 flex flex-col pb-48">
-        <!-- pb-48 for tray space -->
+    <!-- 主遊戲區 (全螢幕 + 模式切換) -->
+    <div class="absolute inset-0 z-0 flex flex-col items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+        id="game-container">
         <div id="game-grid"
-            class="flex-1 grid grid-cols-4 grid-rows-2 gap-2 p-4 md:p-8 w-full h-full max-w-[1920px] mx-auto">
+            class="grid grid-cols-4 grid-rows-2 gap-3 md:gap-4 p-4 transition-all duration-700 w-[75%] h-[55%]">
             <!-- 格子由 JS 動態生成 -->
         </div>
     </div>
 
     <!-- 播放控制按鈕 (懸浮右下) -->
-    <div class="fixed right-6 bottom-52 z-50 flex flex-col gap-3">
+    <div class="fixed right-6 bottom-40 z-40 flex flex-col gap-3 transition-all duration-500" id="control-panel">
         <button id="play-btn" disabled
-            class="w-16 h-16 bg-white/10 backdrop-blur rounded-full flex items-center justify-center border border-white/20 hover:scale-105 active:scale-95 transition-all text-white disabled:opacity-50 disabled:cursor-not-allowed group">
-            <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+            class="w-20 h-20 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 hover:scale-110 active:scale-95 transition-all text-white disabled:opacity-50 disabled:cursor-not-allowed group shadow-2xl">
+            <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
                 fill="currentColor">
                 <polygon points="5 3 19 12 5 21 5 3" />
             </svg>
-            <svg id="pause-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            <svg id="pause-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
                 viewBox="0 0 24 24" fill="currentColor">
                 <rect x="6" y="4" width="4" height="16" />
                 <rect x="14" y="4" width="4" height="16" />
@@ -139,8 +144,8 @@
             </div>
         </button>
         <button id="reset-btn"
-            class="w-10 h-10 bg-black/50 backdrop-blur rounded-full flex items-center justify-center border border-white/10 hover:bg-zinc-800 text-zinc-400">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            class="w-12 h-12 bg-black/50 backdrop-blur rounded-full flex items-center justify-center border border-white/10 hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
                 <path d="M3 3v5h5" />
@@ -148,51 +153,72 @@
         </button>
     </div>
 
-    <!-- 底部控制列 -->
-    <div
-        class="fixed bottom-0 left-0 w-full h-44 bg-black/90 backdrop-blur-xl border-t border-white/10 flex flex-col shrink-0 z-40 transition-transform duration-300">
-        <div class="px-4 py-2 flex justify-between items-center border-b border-white/5">
-            <div class="flex items-center gap-4">
-                <span class="text-[10px] font-black text-zinc-500 uppercase tracking-widest">ASSET LIBRARY</span>
+    <!-- 底部素材庫抽屜 (Fixed Drawer) -->
+    <div id="bottom-drawer"
+        class="fixed bottom-0 left-0 w-full bg-black/90 backdrop-blur-xl border-t border-white/10 flex flex-col shrink-0 z-50 transition-transform duration-500 ease-out translate-y-0 shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
+
+        <!-- Drawer Toggle Handle -->
+        <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-32 h-6 bg-black/90 backdrop-blur-xl rounded-t-xl border-t border-l border-r border-white/10 flex items-center justify-center cursor-pointer hover:bg-zinc-800 transition-colors group"
+            onclick="toggleDrawer()">
+            <svg id="drawer-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2"
+                class="text-zinc-400 group-hover:text-white transition-transform duration-300">
+                <polyline points="6 9 12 15 18 9" />
+            </svg>
+        </div>
+
+        <div class="px-6 py-3 flex justify-between items-center border-b border-white/5 bg-white/5">
+            <div class="flex items-center gap-6">
+                <span class="text-xs font-black text-zinc-400 uppercase tracking-widest flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                        <circle cx="8.5" cy="8.5" r="1.5" />
+                        <polyline points="21 15 16 10 5 21" />
+                    </svg>
+                    ASSETS
+                </span>
                 <!-- 同步微調控制 -->
-                <div class="flex items-center gap-2 bg-white/5 px-2 py-0.5 rounded-full border border-white/5">
-                    <span class="text-[8px] text-zinc-500 font-mono uppercase">OFFSET:</span>
+                <div class="flex items-center gap-3 bg-black/40 px-3 py-1 rounded-full border border-white/5">
+                    <span class="text-[10px] text-zinc-500 font-mono uppercase">SYNC OFFSET</span>
                     <input type="range" id="offset-slider" min="-2000" max="2000" value="0" step="10"
-                        class="w-16 h-1 bg-zinc-700 rounded-lg appearance-none cursor-pointer">
-                    <span id="offset-value" class="text-[8px] text-zinc-400 font-mono w-8 text-right">0ms</span>
+                        class="w-32 h-1 bg-zinc-700 rounded-lg appearance-none cursor-pointer hover:bg-zinc-600 transition-colors">
+                    <span id="offset-value" class="text-[10px] text-zinc-300 font-mono w-12 text-right">0ms</span>
                 </div>
             </div>
 
-            <div class="flex gap-2">
-                <div class="hidden md:flex text-[10px] text-zinc-600 font-mono items-center mr-4">
-                    DRAG & DROP SUPPORTED
+            <div class="flex gap-3">
+                <div
+                    class="hidden md:flex text-[10px] text-zinc-500 font-mono items-center mr-2 border border-dashed border-zinc-700 px-2 rounded">
+                    DRAG & DROP READY
                 </div>
                 <button onclick="document.getElementById('upload-input').click()"
-                    class="text-[10px] bg-white/10 hover:bg-white/20 px-3 py-1 rounded text-zinc-200 transition-colors flex items-center gap-2 border border-white/5">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                    class="text-xs bg-blue-600/20 hover:bg-blue-600/40 border border-blue-500/30 px-4 py-1.5 rounded-lg text-blue-200 transition-all flex items-center gap-2 hover:scale-105 active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                         <polyline points="17 8 12 3 7 8" />
                         <line x1="12" y1="3" x2="12" y2="15" />
                     </svg>
-                    UPLOAD
+                    上傳
                 </button>
                 <button onclick="clearTraySelection()"
-                    class="text-[10px] text-zinc-500 hover:text-zinc-300 px-2">CLEAR</button>
+                    class="text-xs text-zinc-500 hover:text-white px-3 transition-colors">清除選取</button>
             </div>
-            <input type="file" id="upload-input" multiple accept="image/*">
+            <input type="file" id="upload-input" multiple accept="image/*" class="hidden">
         </div>
 
         <div id="image-tray"
-            class="flex-1 overflow-x-auto overflow-y-hidden p-4 flex gap-3 custom-scrollbar items-center transition-colors">
-            <div class="text-zinc-600 text-xs italic px-4 pointer-events-none select-none flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2">
+            class="h-32 w-full overflow-x-auto overflow-y-hidden p-4 flex gap-4 custom-scrollbar items-center bg-zinc-950/50 transition-colors">
+            <div
+                class="text-zinc-600 text-sm italic px-8 pointer-events-none select-none flex items-center gap-3 w-full justify-center opacity-50">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                     <polyline points="17 8 12 3 7 8" />
                     <line x1="12" y1="3" x2="12" y2="15" />
                 </svg>
-                Drag images here or click upload
+                拖曳圖片至此處，或點擊上傳按鈕
             </div>
         </div>
     </div>
@@ -201,13 +227,31 @@
     <div id="youtube-player" class="fixed opacity-0 pointer-events-none -z-50 w-1 h-1 bottom-0 left-0"></div>
 
     <style>
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
         @keyframes pump {
             0% {
                 transform: scale(1);
             }
 
-            50% {
-                transform: scale(1.005);
+            40% {
+                transform: scale(1.02);
             }
 
             100% {
@@ -216,19 +260,53 @@
         }
 
         .pump-effect {
-            animation: pump 0.1s ease-out;
+            animation: pump 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .grid-item.active {
             border: 4px solid #ef4444 !important;
-            box-shadow: 0 0 30px #ef4444, inset 0 0 20px #ef4444;
-            transform: scale(1.02);
-            z-index: 10;
+            box-shadow: 0 0 40px #ef4444, inset 0 0 20px #ef4444;
+            transform: scale(1.05);
+            z-index: 20;
+            filter: brightness(1.2) contrast(1.1);
         }
 
         .tray-drag-over {
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 2px dashed rgba(255, 255, 255, 0.2);
+            background-color: rgba(59, 130, 246, 0.1) !important;
+            border: 2px dashed rgba(59, 130, 246, 0.5);
+            box-shadow: inset 0 0 20px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Mode Styles managed via JS classes on container */
+        .mode-standby #game-grid {
+            width: 75%;
+            height: 55%;
+            transform: perspective(1000px) rotateX(2deg);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .mode-playing #game-grid {
+            width: 95%;
+            height: 90%;
+            transform: perspective(1000px) rotateX(0deg);
+            background: transparent;
+            border: none;
+            box-shadow: none;
+        }
+
+        .drawer-closed {
+            transform: translateY(100%);
+        }
+
+        .drawer-open {
+            transform: translateY(0%);
+        }
+
+        .flip-icon {
+            transform: rotate(180deg);
         }
     </style>
 
@@ -237,11 +315,9 @@
         const BPM = 170;
         const BEAT_DURATION = 60 / BPM;
 
-        // 5 Rounds, 8 Slots each
         const TOTAL_ROUNDS = 5;
         const SLOTS_PER_ROUND = 8;
 
-        // 狀態管理
         const GAME_STATE = {
             currentRound: 0,
             rounds: Array.from({ length: TOTAL_ROUNDS }, () => ({
@@ -251,50 +327,78 @@
             isPlaying: false,
             animationFrameId: null,
             lastBeat: -1,
-            globalOffset: 0
+            globalOffset: 0,
+            isDrawerOpen: true
         };
 
         const RHYTHM_TIMELINE = [
-            // --- 初始 (0-5s 暫停) ---
             { time: 0.0, action: 'stop', round: 0 },
-
-            // --- Round 1 ---
             { time: 5.0, action: 'start', round: 0 },
-
-            // --- Round 2 ---
             { time: 10.5, action: 'start', round: 1 },
-
-            // --- Round 3 ---
             { time: 16.0, action: 'start', round: 2 },
-
-            // --- Round 4 ---
             { time: 21.0, action: 'start', round: 3 },
-
-            // --- Round 5 ---
             { time: 26.0, action: 'start', round: 4 },
-
             { time: 999.0, action: 'stop' }
         ];
 
         // --- DOM Elements ---
         const gridEl = document.getElementById('game-grid');
+        const gameContainer = document.getElementById('game-container');
         const trayEl = document.getElementById('image-tray');
         const uploadInput = document.getElementById('upload-input');
         const offsetSlider = document.getElementById('offset-slider');
         const offsetValue = document.getElementById('offset-value');
+        const drawerEl = document.getElementById('bottom-drawer');
+        const drawerIcon = document.getElementById('drawer-icon');
 
-        // --- 初始化 ---
         function init() {
             renderGrid();
             setupTrayEvents();
             updateRoundButtons();
+            setGameMode('standby'); // default
 
-            // Offset Control
             offsetSlider.addEventListener('input', (e) => {
                 const val = parseInt(e.target.value);
                 GAME_STATE.globalOffset = val;
                 offsetValue.innerText = (val > 0 ? '+' : '') + val + 'ms';
             });
+        }
+
+        // --- View Mode & Drawer Logic ---
+        function setGameMode(mode) {
+            const header = document.getElementById('header-panel');
+            const controls = document.getElementById('control-panel');
+
+            if (mode === 'playing') {
+                gameContainer.classList.remove('mode-standby');
+                gameContainer.classList.add('mode-playing');
+                toggleDrawer(false); // Auto close drawer
+
+                // Visual tweaks for playing
+                header.classList.add('opacity-30', 'scale-90', 'origin-top-left');
+                // controls.classList.add('opacity-50', 'hover:opacity-100');
+            } else {
+                gameContainer.classList.remove('mode-playing');
+                gameContainer.classList.add('mode-standby');
+                toggleDrawer(true); // Auto open drawer
+
+                // Visual tweaks for standby
+                header.classList.remove('opacity-30', 'scale-90', 'origin-top-left');
+                // controls.classList.remove('opacity-50');
+            }
+        }
+
+        function toggleDrawer(forceState = null) {
+            const shouldOpen = forceState !== null ? forceState : !GAME_STATE.isDrawerOpen;
+            GAME_STATE.isDrawerOpen = shouldOpen;
+
+            if (shouldOpen) {
+                drawerEl.classList.remove('drawer-closed');
+                drawerIcon.classList.remove('flip-icon'); // arrow down
+            } else {
+                drawerEl.classList.add('drawer-closed');
+                drawerIcon.classList.add('flip-icon'); // arrow up
+            }
         }
 
         // --- UI Rendering ---
@@ -305,14 +409,13 @@
             images.forEach((imgSrc, index) => {
                 const slot = document.createElement('div');
                 slot.id = `slot-${index}`;
-                // Immersive styles
-                slot.className = `grid-item relative w-full h-full bg-zinc-900/40 rounded-lg overflow-hidden flex items-center justify-center cursor-pointer hover:bg-zinc-800/60 transition-all border border-white/5 group`;
+                slot.className = `grid-item relative w-full h-full bg-zinc-800/80 rounded-2xl overflow-hidden flex items-center justify-center cursor-pointer hover:bg-zinc-700/80 transition-all border-2 border-white/5 group shadow-inner`;
 
                 if (imgSrc) {
-                    slot.innerHTML = `<img src="${imgSrc}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
-                                      <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>`;
+                    slot.innerHTML = `<img src="${imgSrc}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                      <div class="absolute inset-0 bg-black/0 group-hover:bg-white/10 transition-colors"></div>`;
                 } else {
-                    slot.innerHTML = `<span class="text-zinc-800 font-black text-6xl md:text-8xl opacity-50 select-none group-hover:text-zinc-700 transition-colors">${index + 1}</span>`;
+                    slot.innerHTML = `<span class="text-white/10 font-black text-6xl md:text-9xl select-none group-hover:text-white/20 transition-colors italic">#${index + 1}</span>`;
                 }
 
                 slot.onclick = () => handleSlotClick(index);
@@ -324,9 +427,9 @@
             for (let i = 0; i < TOTAL_ROUNDS; i++) {
                 const btn = document.getElementById(`round-btn-${i}`);
                 if (i === GAME_STATE.currentRound) {
-                    btn.className = 'round-btn w-8 h-8 rounded-lg bg-blue-600 text-white font-bold shadow-lg shadow-blue-500/30 scale-110 transition-all border border-blue-400 text-xs';
+                    btn.className = 'round-btn w-10 h-10 rounded-xl bg-blue-600 text-white font-bold shadow-[0_0_20px_rgba(37,99,235,0.5)] scale-110 transition-all border border-blue-400 text-sm z-10';
                 } else {
-                    btn.className = 'round-btn w-8 h-8 rounded-lg bg-zinc-800/50 text-zinc-400 font-bold hover:bg-zinc-700/80 transition-colors border border-white/5 text-xs';
+                    btn.className = 'round-btn w-10 h-10 rounded-xl bg-zinc-800/50 text-zinc-400 font-bold hover:bg-zinc-700/80 transition-all border border-white/5 text-sm hover:text-white';
                 }
             }
         }
@@ -354,29 +457,14 @@
 
         // --- Image Tray Logic ---
         function setupTrayEvents() {
-            // Drag & Drop
-            trayEl.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                trayEl.classList.add('tray-drag-over');
-            });
-
-            trayEl.addEventListener('dragleave', (e) => {
-                e.preventDefault();
-                trayEl.classList.remove('tray-drag-over');
-            });
-
+            trayEl.addEventListener('dragover', (e) => { e.preventDefault(); trayEl.classList.add('tray-drag-over'); });
+            trayEl.addEventListener('dragleave', (e) => { e.preventDefault(); trayEl.classList.remove('tray-drag-over'); });
             trayEl.addEventListener('drop', (e) => {
                 e.preventDefault();
                 trayEl.classList.remove('tray-drag-over');
-                const files = e.dataTransfer.files;
-                handleFiles(files);
+                handleFiles(e.dataTransfer.files);
             });
-
-            // Input Change
-            uploadInput.addEventListener('change', (e) => {
-                handleFiles(e.target.files);
-                uploadInput.value = '';
-            });
+            uploadInput.addEventListener('change', (e) => { handleFiles(e.target.files); uploadInput.value = ''; });
         }
 
         function handleFiles(files) {
@@ -395,20 +483,19 @@
 
         function addImageToTray(src) {
             const div = document.createElement('div');
-            div.className = 'tray-item w-24 h-24 bg-zinc-800 rounded-lg shrink-0 cursor-pointer overflow-hidden relative border-2 border-transparent hover:border-zinc-500 transition-all';
-            div.innerHTML = `<img src="${src}" class="w-full h-full object-cover">`;
+            div.className = 'tray-item w-28 h-24 bg-zinc-800 rounded-xl shrink-0 cursor-pointer overflow-hidden relative border-2 border-transparent hover:border-zinc-500 transition-all group';
+            div.innerHTML = `<img src="${src}" class="w-full h-full object-cover group-hover:scale-110 transition-transform">`;
             div.onclick = () => {
                 const prev = trayEl.querySelector('.border-blue-500');
                 if (prev) {
-                    prev.classList.remove('border-blue-500', 'shadow-[0_0_15px_rgba(59,130,246,0.6)]', 'scale-105');
+                    prev.classList.remove('border-blue-500', 'shadow-[0_0_20px_rgba(59,130,246,0.6)]', 'scale-105', 'z-10');
                     prev.classList.add('border-transparent');
                 }
-
                 if (GAME_STATE.activeTrayImage === src) {
                     GAME_STATE.activeTrayImage = null;
                 } else {
                     div.classList.remove('border-transparent');
-                    div.classList.add('border-blue-500', 'shadow-[0_0_15px_rgba(59,130,246,0.6)]', 'scale-105');
+                    div.classList.add('border-blue-500', 'shadow-[0_0_20px_rgba(59,130,246,0.6)]', 'scale-105', 'z-10');
                     GAME_STATE.activeTrayImage = src;
                 }
             };
@@ -418,25 +505,19 @@
         function clearTraySelection() {
             const prev = trayEl.querySelector('.border-blue-500');
             if (prev) {
-                prev.classList.remove('border-blue-500', 'shadow-[0_0_15px_rgba(59,130,246,0.6)]', 'scale-105');
+                prev.classList.remove('border-blue-500', 'shadow-[0_0_20px_rgba(59,130,246,0.6)]', 'scale-105', 'z-10');
                 prev.classList.add('border-transparent');
             }
             GAME_STATE.activeTrayImage = null;
         }
 
-        // --- Audio & Rhythm Engine ---
+        // --- YouTube API ---
         let player;
-        // YouTube API
         window.onYouTubeIframeAPIReady = function () {
             player = new YT.Player('youtube-player', {
-                height: '100%',
-                width: '100%',
-                videoId: 'JtY2bm5Y-UY',
+                height: '100%', width: '100%', videoId: 'JtY2bm5Y-UY',
                 playerVars: { 'playsinline': 1, 'controls': 0, 'disablekb': 1 },
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
+                events: { 'onReady': onPlayerReady, 'onStateChange': onPlayerStateChange }
             });
         };
 
@@ -449,82 +530,64 @@
         function onPlayerStateChange(event) {
             const playIcon = document.getElementById('play-icon');
             const pauseIcon = document.getElementById('pause-icon');
+            const playBtn = document.getElementById('play-btn');
+
             if (event.data === YT.PlayerState.PLAYING) {
                 GAME_STATE.isPlaying = true;
                 playIcon.classList.add('hidden');
                 pauseIcon.classList.remove('hidden');
-                document.getElementById('play-btn').classList.add('border-red-500/50', 'bg-red-500/10');
+                playBtn.classList.add('border-red-500', 'bg-red-600/20', 'animate-pulse');
+                setGameMode('playing');
                 loop();
             } else {
                 GAME_STATE.isPlaying = false;
                 playIcon.classList.remove('hidden');
                 pauseIcon.classList.add('hidden');
-                document.getElementById('play-btn').classList.remove('border-red-500/50', 'bg-red-500/10');
+                playBtn.classList.remove('border-red-500', 'bg-red-600/20', 'animate-pulse');
+
+                // If stopped or paused, go back to standby
+                if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED || event.data === YT.PlayerState.CUED) {
+                    setGameMode('standby');
+                }
+
                 if (GAME_STATE.animationFrameId) cancelAnimationFrame(GAME_STATE.animationFrameId);
             }
         }
 
+        // --- Game Loop ---
         function loop() {
             if (!GAME_STATE.isPlaying) return;
-
             if (player && player.getCurrentTime) {
                 let currentTime = player.getCurrentTime();
                 const adjustedTime = currentTime - (GAME_STATE.globalOffset / 1000);
-
                 updateGameLogic(adjustedTime < 0 ? 0 : adjustedTime);
-
                 document.getElementById('timer-display').innerText = `TIME: ${currentTime.toFixed(2)}s`;
             }
             GAME_STATE.animationFrameId = requestAnimationFrame(loop);
         }
 
         function updateGameLogic(time) {
-            const title = document.getElementById('main-title');
-
-            // 找出目前生效的時間區段
-            // 注意：因為要計算 "開始後第幾拍"，我們需要知道該區段的 startTime
             const currentEvent = [...RHYTHM_TIMELINE].reverse().find(e => time >= e.time);
-
             if (currentEvent) {
-                // 回合切換
                 if (currentEvent.round !== undefined && currentEvent.round !== GAME_STATE.currentRound) {
                     setRound(currentEvent.round);
                 }
-
                 if (currentEvent.action === 'start') {
-                    // 計算該回合啟動後的經過時間
                     const elapsedTime = time - currentEvent.time;
-
-                    // 計算目前是第幾拍 (0-based)
                     const beatIndex = Math.floor(elapsedTime / BEAT_DURATION);
-
-                    // 邏輯: 每一輪只閃爍 8 次 (0~7)
                     if (beatIndex < 8) {
                         if (beatIndex !== GAME_STATE.lastBeat) {
                             GAME_STATE.lastBeat = beatIndex;
                             updateRhythmEffect(beatIndex);
-
-                            // Pump Effect on Grid Container
-                            gridEl.classList.remove('pump-effect');
-                            void gridEl.offsetWidth; // trigger reflow
-                            gridEl.classList.add('pump-effect');
-
-                            // Pump Title
-                            if (beatIndex % 2 === 0) { // 強拍
-                                title.style.opacity = '1';
-                                title.style.transform = 'scale(1.1)';
-                            } else {
-                                title.style.opacity = '0.7';
-                                title.style.transform = 'scale(1)';
-                            }
+                            // Pump Effect
+                            gameContainer.classList.remove('pump-effect');
+                            void gameContainer.offsetWidth;
+                            gameContainer.classList.add('pump-effect');
                         }
                     } else {
-                        // 超過8拍，停止閃爍
                         if (GAME_STATE.lastBeat !== -1) {
                             updateRhythmEffect(-1);
                             GAME_STATE.lastBeat = -1;
-                            title.style.opacity = '0.5';
-                            title.style.transform = 'scale(1)';
                         }
                     }
                 } else {
@@ -537,16 +600,12 @@
 
         function updateRhythmEffect(slotIndex) {
             document.querySelectorAll('.grid-item').forEach(el => el.classList.remove('active'));
-
             if (slotIndex !== -1) {
                 const targetSlot = document.getElementById(`slot-${slotIndex}`);
-                if (targetSlot) {
-                    targetSlot.classList.add('active');
-                }
+                if (targetSlot) targetSlot.classList.add('active');
             }
         }
 
-        // --- Even Listeners ---
         document.getElementById('play-btn').addEventListener('click', () => {
             if (GAME_STATE.isPlaying) player.pauseVideo();
             else player.playVideo();
