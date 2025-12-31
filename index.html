@@ -807,13 +807,15 @@
                     if (img) {
                         trayItems.push({ type: 'image', value: img.src });
                     } else {
-                        const textDiv = itemEl.querySelector('div');
-                        if (textDiv && textDiv.style.color) {
+                        // 從 data 屬性中讀取文字的大小和顏色
+                        const textSize = itemEl.getAttribute('data-text-size');
+                        const textColor = itemEl.getAttribute('data-text-color');
+                        if (textSize && textColor) {
                             trayItems.push({
                                 type: 'text',
-                                value: textDiv.textContent,
-                                size: parseInt(textDiv.style.fontSize) || 24,
-                                color: textDiv.style.color
+                                value: itemEl.querySelector('div').textContent,
+                                size: parseInt(textSize),
+                                color: textColor
                             });
                         }
                     }
@@ -1203,12 +1205,15 @@
 
             const div = document.createElement('div');
             div.className = 'tray-item w-28 h-24 bg-zinc-800 rounded-xl shrink-0 cursor-pointer overflow-hidden relative border-2 border-transparent hover:border-zinc-500 transition-all group flex items-center justify-center p-2';
+            // 在容器上儲存原始的大小和顏色
+            div.setAttribute('data-text-size', size);
+            div.setAttribute('data-text-color', color);
 
             // 文字預覽
             const textPreview = document.createElement('div');
             textPreview.className = 'w-full h-full flex items-center justify-center text-center break-words';
             textPreview.style.color = color;
-            textPreview.style.fontSize = Math.min(size, 14) + 'px';
+            textPreview.style.fontSize = size + 'px';
             textPreview.style.fontWeight = 'bold';
             textPreview.style.lineHeight = '1.2';
             textPreview.textContent = text;
@@ -1260,14 +1265,15 @@
                     // 圖片
                     trayItems.push({ type: 'image', value: img.src });
                 } else {
-                    // 文字
-                    const textDiv = itemEl.querySelector('div');
-                    if (textDiv && textDiv.style.color) {
+                    // 文字 - 從 data 屬性中讀取
+                    const textSize = itemEl.getAttribute('data-text-size');
+                    const textColor = itemEl.getAttribute('data-text-color');
+                    if (textSize && textColor) {
                         trayItems.push({
                             type: 'text',
-                            value: textDiv.textContent,
-                            size: parseInt(textDiv.style.fontSize) || 24,
-                            color: textDiv.style.color
+                            value: itemEl.querySelector('div').textContent,
+                            size: parseInt(textSize),
+                            color: textColor
                         });
                     }
                 }
