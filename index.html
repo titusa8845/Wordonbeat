@@ -353,7 +353,7 @@
                     <li><strong class="text-zinc-300">免責聲明：</strong>請和平遵守遊戲規則，並在適當地方進行。</li>
                     <li><strong class="text-zinc-300">開源資訊：</strong>此網頁為 HTML 公開原始碼可參考。</li>
                     <li><strong class="text-zinc-300">聲音來源：</strong>YouTube 影片 <a
-                            href="https://www.youtube.com/watch?v=JtY2bm5Y-UY" target="_blank"
+                            href="https://www.youtube.com/watch?v=XdwFDwEgn0c" target="_blank"
                             class="text-blue-400 hover:text-blue-300 underline">Wordonbeat</a>。</li>
                     <li><strong class="text-zinc-300">隱私聲明：</strong>圖片僅暫存於您的瀏覽器 (LocalStorage)，不會上傳至任何雲端伺服器，亦無需登入即可使用。
                     </li>
@@ -724,7 +724,6 @@
         const themeSelect = document.getElementById('theme-select');
 
         function init() {
-            renderGrid();
             setupTrayEvents();
             updateRoundButtons();
             setGameMode('standby'); // default
@@ -790,6 +789,9 @@
             // Load Data FIRST (before setting default theme)
             loadGameData();
 
+            // 最後才渲染格子，確保資料已載入
+            renderGrid();
+
             // Set default theme ONLY if no saved theme was loaded
             if (!localStorage.getItem('superChallengeData')) {
                 setTheme('dark');
@@ -838,10 +840,18 @@
 
                 const data = JSON.parse(savedData);
 
-                // Restore rounds
+                // Restore rounds - with migration from old 'images' format
                 if (data.rounds) {
-                    GAME_STATE.rounds = data.rounds;
-                    renderGrid();
+                    // Migrate old format (images) to new format (content)
+                    GAME_STATE.rounds = data.rounds.map(round => {
+                        if (round.images && !round.content) {
+                            // 舊格式轉換為新格式
+                            return {
+                                content: round.images.map(img => img ? { type: 'image', value: img } : null)
+                            };
+                        }
+                        return round;
+                    });
                 }
 
                 // Restore tray items
@@ -1311,7 +1321,7 @@
         let player;
         window.onYouTubeIframeAPIReady = function () {
             player = new YT.Player('youtube-player', {
-                height: '100%', width: '100%', videoId: 'JtY2bm5Y-UY',
+                height: '100%', width: '100%', videoId: 'XdwFDwEgn0c',
                 playerVars: { 'playsinline': 1, 'controls': 0, 'disablekb': 1 },
                 events: { 'onReady': onPlayerReady, 'onStateChange': onPlayerStateChange }
             });
